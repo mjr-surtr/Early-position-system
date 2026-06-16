@@ -1,0 +1,12 @@
+{
+  "item.tutorial_mod.early_night_vision_potion": "Early Night Vision Potion",
+  "item.tutorial_mod.early_healing_potion": "Early Healing Potion",
+  "item.tutorial_mod.early_water_breathing_potion": "Early Water Breathing Potion",
+  "item.tutorial_mod.early_strength_potion": "Early Strength Potion",
+  "item.tutorial_mod.early_mining_potion": "Early Mining Speed Potion",
+  "item.tutorial_mod.early_tab_icon": "Early All-in-One Potion",
+
+  "block.tutorial_mod.early_brewing_stand": "Early Brewing Stand",
+
+  "itemGroup.early": "Early Potion System"
+}
