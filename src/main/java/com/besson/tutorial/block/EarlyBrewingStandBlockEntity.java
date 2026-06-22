@@ -2,6 +2,7 @@ package com.besson.tutorial.block;
 
 import com.besson.tutorial.item.Moditems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -9,6 +10,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -23,18 +25,18 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EarlyBrewingStandBlockEntity extends BlockEntity implements MenuProvider {
+public class EarlyBrewingStandBlockEntity extends BlockEntity implements MenuProvider, WorldlyContainer {
     private static final int TOTAL_SLOTS = 5;
     private static final int SLOT_INGREDIENT = 3;
     private static final int SLOT_FUEL = 4;
     private static final int BREW_TIME_MAX = 400;
     private static final int FUEL_USES = 20;
 
-    // 自定义酿造配方：原料 → 药水产物
     private static final Map<Item, Item> CUSTOM_RECIPES = new HashMap<>();
     static {
         CUSTOM_RECIPES.put(Items.CARROT, Moditems.EARLY_NIGHT_VISION_POTION.get());
@@ -104,7 +106,7 @@ public class EarlyBrewingStandBlockEntity extends BlockEntity implements MenuPro
 
     @Override
     public Component getDisplayName() {
-        return Component.translatable("block.tutorial_mod.early_brewing_stand");
+        return Component.translatable("block.earlypotions.early_brewing_stand");
     }
 
     @Override
@@ -116,11 +118,59 @@ public class EarlyBrewingStandBlockEntity extends BlockEntity implements MenuPro
         return items;
     }
 
-    boolean stillValid(Player player) {
-        if (this.level.getBlockEntity(this.worldPosition) != this) return false;
+    @Override
+    public boolean stillValid(Player player) {
+        if (this.level == null || this.level.getBlockEntity(this.worldPosition) != this) return false;
         return player.distanceToSqr(this.worldPosition.getX() + 0.5,
                 this.worldPosition.getY() + 0.5, this.worldPosition.getZ() + 0.5) <= 64.0;
     }
+
+    // ==================== WorldlyContainer (hopper) ====================
+
+    @Override
+    public int getContainerSize() { return TOTAL_SLOTS; }
+    @Override
+    public boolean isEmpty() { return container.isEmpty(); }
+    @Override
+    public ItemStack getItem(int slot) { return items.get(slot); }
+    @Override
+    public ItemStack removeItem(int slot, int amount) { return container.removeItem(slot, amount); }
+    @Override
+    public ItemStack removeItemNoUpdate(int slot) { return container.removeItemNoUpdate(slot); }
+    @Override
+    public void setItem(int slot, ItemStack stack) { container.setItem(slot, stack); }
+    @Override
+    public void clearContent() { items.clear(); setChanged(); }
+
+    @Override
+    public int[] getSlotsForFace(Direction side) {
+        return switch (side) {
+            case DOWN -> new int[]{0, 1, 2};
+            case UP -> new int[]{3};
+            default -> new int[]{3, 4, 0, 1, 2};
+        };
+    }
+
+    @Override
+    public boolean canPlaceItemThroughFace(int slot, ItemStack stack, @Nullable Direction dir) {
+        return switch (slot) {
+            case 3 -> isValidIngredient(stack);
+            case 4 -> isFuel(stack);
+            case 0, 1, 2 -> stack.is(Items.GLASS_BOTTLE) || stack.is(Items.POTION)
+                    || stack.is(Items.LINGERING_POTION) || stack.is(Items.SPLASH_POTION);
+            default -> false;
+        };
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction dir) {
+        if ((slot == 0 || slot == 1 || slot == 2) && !stack.isEmpty()) {
+            return !isWaterBottle(stack);
+        }
+        return false;
+    }
+
+    // ==================== Brewing logic ====================
 
     @Override
     protected void saveAdditional(CompoundTag tag) {
@@ -157,10 +207,7 @@ public class EarlyBrewingStandBlockEntity extends BlockEntity implements MenuPro
             boolean slotsValid = true;
             for (int i = 0; i < 3; i++) {
                 if (entity.pItems[i]) {
-                    if (entity.items.get(i).isEmpty()) {
-                        slotsValid = false;
-                        break;
-                    }
+                    if (entity.items.get(i).isEmpty()) { slotsValid = false; break; }
                 }
             }
             if (!validIngredient || !slotsValid || entity.fuel <= 0) {
@@ -178,73 +225,44 @@ public class EarlyBrewingStandBlockEntity extends BlockEntity implements MenuPro
             }
             setChanged(level, pos, state);
         } else {
-            if (entity.brewTime != 0) {
-                entity.brewTime = 0;
-                setChanged(level, pos, state);
-            }
+            if (entity.brewTime != 0) { entity.brewTime = 0; setChanged(level, pos, state); }
         }
     }
 
-    /**
-     * 判断是否可以酿造：支持自定义配方和原版配方
-     */
     private boolean canBrew() {
         ItemStack ingredientStack = this.items.get(SLOT_INGREDIENT);
         if (ingredientStack.isEmpty()) return false;
-
         Item ingredientItem = ingredientStack.getItem();
-
-        // 1. 自定义配方：检查是否有水瓶 + 自定义原料
         if (CUSTOM_RECIPES.containsKey(ingredientItem)) {
             for (int i = 0; i < 3; i++) {
                 ItemStack bottle = this.items.get(i);
-                if (!bottle.isEmpty() && isWaterBottle(bottle)) {
-                    return true;
-                }
+                if (!bottle.isEmpty() && isWaterBottle(bottle)) return true;
             }
             return false;
         }
-
-        // 2. 原版配方：使用PotionBrewing判断
         if (!PotionBrewing.isIngredient(ingredientStack)) return false;
         for (int i = 0; i < 3; i++) {
             ItemStack bottle = this.items.get(i);
-            if (!bottle.isEmpty() && PotionBrewing.hasMix(bottle, ingredientStack)) {
-                return true;
-            }
+            if (!bottle.isEmpty() && PotionBrewing.hasMix(bottle, ingredientStack)) return true;
         }
         return false;
     }
 
-    /**
-     * 执行酿造：优先自定义配方，否则走原版
-     */
     private void doBrew() {
         ItemStack ingredientStack = this.items.get(SLOT_INGREDIENT);
         Item ingredientItem = ingredientStack.getItem();
-
-        // 自定义配方
         if (CUSTOM_RECIPES.containsKey(ingredientItem)) {
             Item resultItem = CUSTOM_RECIPES.get(ingredientItem);
             for (int i = 0; i < 3; i++) {
                 ItemStack bottle = this.items.get(i);
-                if (!bottle.isEmpty() && isWaterBottle(bottle)) {
+                if (!bottle.isEmpty() && isWaterBottle(bottle))
                     this.items.set(i, new ItemStack(resultItem));
-                }
             }
-            ingredientStack.shrink(1);
-            this.fuel--;
-            this.brewTime = 0;
-            Arrays.fill(this.pItems, false);
-            return;
-        }
-
-        // 原版配方
-        for (int i = 0; i < 3; i++) {
-            ItemStack bottle = this.items.get(i);
-            if (!bottle.isEmpty() && PotionBrewing.hasMix(bottle, ingredientStack)) {
-                ItemStack result = PotionBrewing.mix(ingredientStack, bottle);
-                this.items.set(i, result);
+        } else {
+            for (int i = 0; i < 3; i++) {
+                ItemStack bottle = this.items.get(i);
+                if (!bottle.isEmpty() && PotionBrewing.hasMix(bottle, ingredientStack))
+                    this.items.set(i, PotionBrewing.mix(ingredientStack, bottle));
             }
         }
         ingredientStack.shrink(1);
@@ -253,15 +271,9 @@ public class EarlyBrewingStandBlockEntity extends BlockEntity implements MenuPro
         Arrays.fill(this.pItems, false);
     }
 
-    /**
-     * 判断物品是否为水瓶（支持POTION和GLASS_BOTTLE）
-     */
     private static boolean isWaterBottle(ItemStack stack) {
         if (stack.is(Items.GLASS_BOTTLE)) return true;
-        if (stack.is(Items.POTION)) {
-            // 检查是否为原版水瓶（无效果的POTION = 水瓶）
-            return PotionUtils.getPotion(stack) == Potions.WATER;
-        }
+        if (stack.is(Items.POTION)) return PotionUtils.getPotion(stack) == Potions.WATER;
         return false;
     }
 

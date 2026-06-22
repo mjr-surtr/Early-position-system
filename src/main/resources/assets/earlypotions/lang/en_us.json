@@ -1,0 +1,14 @@
+{
+  "item.earlypotions.early_night_vision_potion": "Early Night Vision Potion",
+  "item.earlypotions.early_healing_potion": "Early Healing Potion",
+  "item.earlypotions.early_water_breathing_potion": "Early Water Breathing Potion",
+  "item.earlypotions.early_strength_potion": "Early Strength Potion",
+  "item.earlypotions.early_mining_potion": "Early Mining Speed Potion",
+  "item.earlypotions.early_tab_icon": "Early All-in-One Potion",
+
+  "block.earlypotions.early_brewing_stand": "Early Brewing Stand",
+
+  "itemGroup.early": "Early Potion System",
+
+  "jei.earlypotions.early_brewing": "Early Brewing"
+}

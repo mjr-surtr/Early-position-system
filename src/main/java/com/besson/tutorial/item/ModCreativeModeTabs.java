@@ -1,7 +1,6 @@
 package com.besson.tutorial.item;
 
 import com.besson.tutorial.TutorialMod;
-
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -15,7 +14,6 @@ public class ModCreativeModeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, TutorialMod.MOD_ID);
 
-    @SuppressWarnings("unused")
     public static final RegistryObject<CreativeModeTab> EARLY_TAB =
             CREATIVE_MODE_TABS.register("early", () -> CreativeModeTab.builder()
                     .icon(() -> new ItemStack(Moditems.EARLY_TAB_ICON.get()))
@@ -31,9 +29,7 @@ public class ModCreativeModeTabs {
                     })
                     .build());
 
-      public static void register(IEventBus eventBus){
+    public static void register(IEventBus eventBus) {
         CREATIVE_MODE_TABS.register(eventBus);
-    
     }
-
 }

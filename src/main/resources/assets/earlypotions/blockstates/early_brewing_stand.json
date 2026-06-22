@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "earlypotions:block/early_brewing_stand"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "earlypotions:early_night_vision_potion"
+    },
+    {
+      "item": "earlypotions:early_healing_potion"
+    },
+    {
+      "item": "earlypotions:early_water_breathing_potion"
+    },
+    {
+      "item": "earlypotions:early_strength_potion"
+    },
+    {
+      "item": "earlypotions:early_mining_potion"
+    }
+  ],
+  "result": {
+    "item": "earlypotions:early_tab_icon",
+    "count": 1
+  }
+}

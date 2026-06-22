@@ -1,0 +1,14 @@
+{
+  "item.earlypotions.early_night_vision_potion": "早期夜视药水",
+  "item.earlypotions.early_healing_potion": "早期生命药水",
+  "item.earlypotions.early_water_breathing_potion": "早期水肺药水",
+  "item.earlypotions.early_strength_potion": "早期力量药水",
+  "item.earlypotions.early_mining_potion": "早期挖掘提升药水",
+  "item.earlypotions.early_tab_icon": "早期全能药水",
+
+  "block.earlypotions.early_brewing_stand": "早期炼药台",
+
+  "itemGroup.early": "早期药水系统",
+
+  "jei.earlypotions.early_brewing": "早期酿造"
+}
