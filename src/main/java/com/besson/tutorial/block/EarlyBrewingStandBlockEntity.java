@@ -39,11 +39,19 @@ public class EarlyBrewingStandBlockEntity extends BlockEntity implements MenuPro
 
     private static final Map<Item, Item> CUSTOM_RECIPES = new HashMap<>();
     static {
+        // v1.0 基础配方
         CUSTOM_RECIPES.put(Items.CARROT, Moditems.EARLY_NIGHT_VISION_POTION.get());
         CUSTOM_RECIPES.put(Items.BEEF, Moditems.EARLY_STRENGTH_POTION.get());
         CUSTOM_RECIPES.put(Items.APPLE, Moditems.EARLY_HEALING_POTION.get());
         CUSTOM_RECIPES.put(Items.SALMON, Moditems.EARLY_WATER_BREATHING_POTION.get());
         CUSTOM_RECIPES.put(Items.CHICKEN, Moditems.EARLY_MINING_POTION.get());
+        // v1.1.0 新增配方（全部为早期可获得的简单材料）
+        CUSTOM_RECIPES.put(Items.SUGAR, Moditems.EARLY_SWIFTNESS_POTION.get());
+        CUSTOM_RECIPES.put(Items.SLIME_BALL, Moditems.EARLY_LEAPING_POTION.get());
+        CUSTOM_RECIPES.put(Items.FEATHER, Moditems.EARLY_SLOW_FALLING_POTION.get());
+        CUSTOM_RECIPES.put(Items.INK_SAC, Moditems.EARLY_INVISIBILITY_POTION.get());
+        CUSTOM_RECIPES.put(Items.GLOW_BERRIES, Moditems.EARLY_GLOWING_POTION.get());
+        CUSTOM_RECIPES.put(Items.RABBIT_FOOT, Moditems.EARLY_LUCK_POTION.get());
     }
 
     private NonNullList<ItemStack> items = NonNullList.withSize(TOTAL_SLOTS, ItemStack.EMPTY);

@@ -36,7 +36,13 @@ public class EarlyBrewingJeiPlugin implements IModPlugin {
                 new EarlyBrewingRecipe(Items.BEEF,    Moditems.EARLY_STRENGTH_POTION.get()),
                 new EarlyBrewingRecipe(Items.APPLE,   Moditems.EARLY_HEALING_POTION.get()),
                 new EarlyBrewingRecipe(Items.SALMON,  Moditems.EARLY_WATER_BREATHING_POTION.get()),
-                new EarlyBrewingRecipe(Items.CHICKEN, Moditems.EARLY_MINING_POTION.get())
+                new EarlyBrewingRecipe(Items.CHICKEN, Moditems.EARLY_MINING_POTION.get()),
+                new EarlyBrewingRecipe(Items.SUGAR,       Moditems.EARLY_SWIFTNESS_POTION.get()),
+                new EarlyBrewingRecipe(Items.SLIME_BALL,  Moditems.EARLY_LEAPING_POTION.get()),
+                new EarlyBrewingRecipe(Items.FEATHER,     Moditems.EARLY_SLOW_FALLING_POTION.get()),
+                new EarlyBrewingRecipe(Items.INK_SAC,     Moditems.EARLY_INVISIBILITY_POTION.get()),
+                new EarlyBrewingRecipe(Items.GLOW_BERRIES, Moditems.EARLY_GLOWING_POTION.get()),
+                new EarlyBrewingRecipe(Items.RABBIT_FOOT, Moditems.EARLY_LUCK_POTION.get())
         ));
     }
 

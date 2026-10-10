@@ -4,7 +4,30 @@
   "item.earlypotions.early_water_breathing_potion": "早期水肺药水",
   "item.earlypotions.early_strength_potion": "早期力量药水",
   "item.earlypotions.early_mining_potion": "早期挖掘提升药水",
+  "item.earlypotions.early_swiftness_potion": "早期迅捷药水",
+  "item.earlypotions.early_leaping_potion": "早期跳跃药水",
+  "item.earlypotions.early_slow_falling_potion": "早期缓降药水",
+  "item.earlypotions.early_invisibility_potion": "早期隐身药水",
+  "item.earlypotions.early_glowing_potion": "早期发光药水",
+  "item.earlypotions.early_luck_potion": "早期幸运药水",
   "item.earlypotions.early_tab_icon": "早期全能药水",
+
+  "item.earlypotions.alchemist_cleanser": "炼金净化剂",
+  "item.earlypotions.potion_core": "药水核心",
+  "item.earlypotions.potion_core.lore": "炼金术的结晶，可为装备注入魔力",
+
+  "item.earlypotions.alchemist_helmet": "炼金护目镜",
+  "item.earlypotions.alchemist_chestplate": "炼金胸甲",
+  "item.earlypotions.alchemist_leggings": "炼金护腿",
+  "item.earlypotions.alchemist_boots": "炼金战靴",
+  "item.earlypotions.alchemist_armor.lore": "穿戴时持续获得对应的炼金增益",
+
+  "item.earlypotions.alchemist_blade": "炼金之刃",
+  "item.earlypotions.alchemist_blade.lore": "命中敌人时附加虚弱与发光",
+
+  "item.earlypotions.alchemist_secret_brew": "炼金术士的秘酿",
+  "item.earlypotions.alchemist_secret_brew.lore": "配方早已失传……唯有真正的炼金术士才能复原",
+  "item.earlypotions.alchemist_secret_brew.reveal": "秘酿入喉，你窥见了炼金术的真相！",
 
   "block.earlypotions.early_brewing_stand": "早期炼药台",
 

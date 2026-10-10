@@ -20,12 +20,34 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("itemGroup.early"))
                     .displayItems((pParameters, pOutput) -> {
                         pOutput.accept(Moditems.EARLY_BREWING_STAND_ITEM.get());
+
+                        // 早期药水
                         pOutput.accept(Moditems.EARLY_NIGHT_VISION_POTION.get());
                         pOutput.accept(Moditems.EARLY_HEALING_POTION.get());
                         pOutput.accept(Moditems.EARLY_WATER_BREATHING_POTION.get());
                         pOutput.accept(Moditems.EARLY_STRENGTH_POTION.get());
                         pOutput.accept(Moditems.EARLY_MINING_POTION.get());
+                        pOutput.accept(Moditems.EARLY_SWIFTNESS_POTION.get());
+                        pOutput.accept(Moditems.EARLY_LEAPING_POTION.get());
+                        pOutput.accept(Moditems.EARLY_SLOW_FALLING_POTION.get());
+                        pOutput.accept(Moditems.EARLY_INVISIBILITY_POTION.get());
+                        pOutput.accept(Moditems.EARLY_GLOWING_POTION.get());
+                        pOutput.accept(Moditems.EARLY_LUCK_POTION.get());
+
+                        // 功能道具
+                        pOutput.accept(Moditems.POTION_CORE.get());
+                        pOutput.accept(Moditems.ALCHEMIST_CLEANSER.get());
+
+                        // 炼金术士装备
+                        pOutput.accept(Moditems.ALCHEMIST_HELMET.get());
+                        pOutput.accept(Moditems.ALCHEMIST_CHESTPLATE.get());
+                        pOutput.accept(Moditems.ALCHEMIST_LEGGINGS.get());
+                        pOutput.accept(Moditems.ALCHEMIST_BOOTS.get());
+                        pOutput.accept(Moditems.ALCHEMIST_BLADE.get());
+
+                        // 图标与彩蛋
                         pOutput.accept(Moditems.EARLY_TAB_ICON.get());
+                        pOutput.accept(Moditems.ALCHEMIST_SECRET_BREW.get());
                     })
                     .build());
 

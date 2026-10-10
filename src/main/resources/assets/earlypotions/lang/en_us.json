@@ -4,7 +4,30 @@
   "item.earlypotions.early_water_breathing_potion": "Early Water Breathing Potion",
   "item.earlypotions.early_strength_potion": "Early Strength Potion",
   "item.earlypotions.early_mining_potion": "Early Mining Speed Potion",
+  "item.earlypotions.early_swiftness_potion": "Early Swiftness Potion",
+  "item.earlypotions.early_leaping_potion": "Early Leaping Potion",
+  "item.earlypotions.early_slow_falling_potion": "Early Slow Falling Potion",
+  "item.earlypotions.early_invisibility_potion": "Early Invisibility Potion",
+  "item.earlypotions.early_glowing_potion": "Early Glowing Potion",
+  "item.earlypotions.early_luck_potion": "Early Luck Potion",
   "item.earlypotions.early_tab_icon": "Early All-in-One Potion",
+
+  "item.earlypotions.alchemist_cleanser": "Alchemist's Cleanser",
+  "item.earlypotions.potion_core": "Potion Core",
+  "item.earlypotions.potion_core.lore": "Crystallized alchemy, able to infuse gear with magic",
+
+  "item.earlypotions.alchemist_helmet": "Alchemist Goggles",
+  "item.earlypotions.alchemist_chestplate": "Alchemist Chestplate",
+  "item.earlypotions.alchemist_leggings": "Alchemist Leggings",
+  "item.earlypotions.alchemist_boots": "Alchemist Boots",
+  "item.earlypotions.alchemist_armor.lore": "Grants its alchemical buff while worn",
+
+  "item.earlypotions.alchemist_blade": "Alchemist's Blade",
+  "item.earlypotions.alchemist_blade.lore": "Weakens and lights up foes on hit",
+
+  "item.earlypotions.alchemist_secret_brew": "Alchemist's Secret Brew",
+  "item.earlypotions.alchemist_secret_brew.lore": "A lost recipe... only a true alchemist can restore it",
+  "item.earlypotions.alchemist_secret_brew.reveal": "The brew slips down and the truth of alchemy is revealed!",
 
   "block.earlypotions.early_brewing_stand": "Early Brewing Stand",
 
