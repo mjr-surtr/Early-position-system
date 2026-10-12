@@ -34,7 +34,7 @@ public class EarlyPotionItem extends Item {
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
 
-        FoodProperties food = this.getFoodProperties();
+        FoodProperties food = stack.getFoodProperties(null);
         if (food != null) {
             for (Pair<MobEffectInstance, Float> pair : food.getEffects()) {
                 MobEffectInstance effect = pair.getFirst();

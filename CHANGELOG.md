@@ -8,6 +8,25 @@
 
 ---
 
+## [1.1.1-1.20.1] - 2026-10-12
+
+> 主题：源码清理。**无行为变更、无新增内容、无数值调整**，仅移除一处已弃用 API 调用。
+
+### 修复 Fixed
+- `EarlyPotionItem#appendHoverText` 改用 `ItemStack#getFoodProperties(LivingEntity)`（Forge 推荐的 ItemStack 敏感版本），替换已弃用的 `Item#getFoodProperties()`。
+  - Forge 在源码中给出的迁移指引为 `Use IForgeItem#getFoodProperties(ItemStack, LivingEntity) in favour of this.`
+  - 行为完全一致：Forge 该方法的默认实现即回落到原字段，且本项目未覆写 ItemStack 变体；原版自身也以 `stack.getFoodProperties(null)` 方式调用。
+
+### 变更 Changed
+- 全量 `-Xlint:deprecation` 编译告警由 **6 条降至 5 条**。
+- 剩余 5 条位于 `EarlyBrewingStandBlock`，均为原版对**调用方**的弃用（`getShape` / `getRenderShape` / `use` / `onRemove`）。Mojang 在 Javadoc 中明确注明 `Implementing/overriding is fine.`，这是 1.20.1 方块覆写的标准写法，**保留不动**。
+
+### 测试 Test
+- `./gradlew build` 通过，产出 `earlypotions-1.1.1-1.20.1.jar`。
+- 全量重编译（清空 `build/classes/java/main`）确认告警数量与预期一致，0 错误。
+
+---
+
 ## [1.1.0-1.20.1] - 2026-10-10
 
 > 主题：物品体系扩充与长期可玩性提升。在完全兼容原有药水系统的前提下，新增消耗品、功能道具、装备与隐藏彩蛋，并优化交互与数值平衡。
@@ -105,6 +124,7 @@
 
 | 模组版本 | Minecraft | Forge | 说明 |
 | --- | --- | --- | --- |
+| 1.1.1-1.20.1 | 1.20.1 | 47.2.1 | 源码清理（替换已弃用 API） |
 | 1.1.0-1.20.1 | 1.20.1 | 47.2.1 | 物品体系扩充、平衡优化 |
 | 1.0.2-1.20.1 | 1.20.1 | 47.2.1 | 命名空间迁移 |
 | 1.0.0-1.20.1 | 1.20.1 | 47.2.1 | 初始版本 |
