@@ -2,5 +2,6 @@
   "parent": "minecraft:item/generated",
   "textures": {
     "layer0": "earlypotions:item/alchemist_chestplate"
-  }
+  },
+  "gui_light": "front"
 }

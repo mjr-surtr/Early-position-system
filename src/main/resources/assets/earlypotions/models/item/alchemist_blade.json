@@ -2,5 +2,6 @@
   "parent": "minecraft:item/handheld",
   "textures": {
     "layer0": "earlypotions:item/alchemist_blade"
-  }
+  },
+  "gui_light": "front"
 }

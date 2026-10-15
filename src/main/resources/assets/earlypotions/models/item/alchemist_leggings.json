@@ -2,5 +2,6 @@
   "parent": "minecraft:item/generated",
   "textures": {
     "layer0": "earlypotions:item/alchemist_leggings"
-  }
+  },
+  "gui_light": "front"
 }

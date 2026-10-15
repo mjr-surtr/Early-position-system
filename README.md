@@ -5,7 +5,7 @@
 ![Minecraft](https://img.shields.io/badge/Minecraft-1.20.1-green)
 ![Forge](https://img.shields.io/badge/Forge-47.2.1-orange)
 ![License](https://img.shields.io/badge/License-MIT-blue)
-![Version](https://img.shields.io/badge/version-1.1.1--1.20.1-brightgreen)
+![Version](https://img.shields.io/badge/version-1.1.2--1.20.1-brightgreen)
 
 ---
 
@@ -34,7 +34,7 @@
 | --- | --- |
 | 模组 ID | `earlypotions` |
 | 显示名称 | Early Potion System |
-| 版本 | `1.1.1-1.20.1` |
+| 版本 | `1.1.2-1.20.1` |
 | Minecraft | `1.20.1` |
 | Forge | `47.2.1`（`loaderVersion` 要求 `[47,)`） |
 | 许可证 | MIT |
@@ -69,7 +69,7 @@
 | Minecraft Forge | 47.2.1（≥ 47.0） | 是 |
 | JEI（Just Enough Items） | 15.x（1.20.1 版本） | 否（可选） |
 
-> 将构建产出的 `earlypotions-1.1.1-1.20.1.jar` 放入 `.minecraft/mods/` 即可。
+> 将构建产出的 `earlypotions-1.1.2-1.20.1.jar` 放入 `.minecraft/mods/` 即可。
 
 ### 本地开发（作为开发者）
 
@@ -127,7 +127,7 @@ gradlew.bat runGameTestServer
 gradlew.bat build
 ```
 
-产物路径：`build/libs/earlypotions-1.1.1-1.20.1.jar`
+产物路径：`build/libs/earlypotions-1.1.2-1.20.1.jar`
 
 > 提示：`gradlew.bat clean` 可清理构建缓存（不影响源码）；`gradlew.bat --refresh-dependencies` 可刷新依赖。
 
@@ -374,7 +374,7 @@ gradlew.bat runServer
 
 **验证要点**
 
-- 构建成功，产出 `build/libs/earlypotions-1.1.1-1.20.1.jar`（约 81 KB，115 个条目）。
+- 构建成功，产出 `build/libs/earlypotions-1.1.2-1.20.1.jar`。
 - 服务端日志应出现模组版本识别与 `Done` 完成提示，且无异常堆栈。
 - jar 内应包含全部新增类与资源（`ModEvents`、`ModTiers`、`ModArmorMaterials`、`Alchemist*Item`、模型 / 贴图 / 配方 / 语言文件）。
 
