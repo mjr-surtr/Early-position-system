@@ -21,12 +21,15 @@ import java.util.List;
 public class AlchemistArmorItem extends ArmorItem {
     private final MobEffect grantedEffect;
     private final int grantedAmplifier;
+    private final String textureName;
 
     public AlchemistArmorItem(ArmorMaterial material, ArmorItem.Type type,
-                              MobEffect grantedEffect, int grantedAmplifier, Properties properties) {
+                              MobEffect grantedEffect, int grantedAmplifier,
+                              String textureName, Properties properties) {
         super(material, type, properties);
         this.grantedEffect = grantedEffect;
         this.grantedAmplifier = grantedAmplifier;
+        this.textureName = textureName;
     }
 
     public MobEffect getGrantedEffect() {
@@ -40,14 +43,14 @@ public class AlchemistArmorItem extends ArmorItem {
     @Nullable
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-        return TutorialMod.MOD_ID + ":textures/models/armor/alchemist_layer_"
-                + (slot == EquipmentSlot.LEGS ? 2 : 1) + ".png";
+        return TutorialMod.MOD_ID + ":textures/models/armor/" + textureName
+                + "_layer_" + (slot == EquipmentSlot.LEGS ? 2 : 1) + ".png";
     }
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
-        tooltip.add(Component.translatable("item.earlypotions.alchemist_armor.lore")
+        tooltip.add(Component.translatable("item.earlypotions." + textureName + "_armor.lore")
                 .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
     }
 }

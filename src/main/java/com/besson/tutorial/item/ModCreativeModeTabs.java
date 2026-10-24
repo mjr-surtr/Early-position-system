@@ -44,6 +44,10 @@ public class ModCreativeModeTabs {
                         pOutput.accept(Moditems.ALCHEMIST_LEGGINGS.get());
                         pOutput.accept(Moditems.ALCHEMIST_BOOTS.get());
                         pOutput.accept(Moditems.ALCHEMIST_BLADE.get());
+                        pOutput.accept(Moditems.MASTER_ALCHEMIST_HELMET.get());
+                        pOutput.accept(Moditems.MASTER_ALCHEMIST_CHESTPLATE.get());
+                        pOutput.accept(Moditems.MASTER_ALCHEMIST_LEGGINGS.get());
+                        pOutput.accept(Moditems.MASTER_ALCHEMIST_BOOTS.get());
 
                         // 图标与彩蛋
                         pOutput.accept(Moditems.EARLY_TAB_ICON.get());

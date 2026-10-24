@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    { "item": "earlypotions:alchemist_helmet" },
+    { "item": "earlypotions:potion_core" },
+    { "item": "earlypotions:potion_core" },
+    { "item": "earlypotions:potion_core" },
+    { "item": "minecraft:gold_ingot" },
+    { "item": "minecraft:gold_ingot" }
+  ],
+  "result": {
+    "item": "earlypotions:master_alchemist_helmet",
+    "count": 1
+  }
+}

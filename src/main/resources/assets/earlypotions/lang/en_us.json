@@ -22,6 +22,12 @@
   "item.earlypotions.alchemist_boots": "Alchemist Boots",
   "item.earlypotions.alchemist_armor.lore": "Grants its alchemical buff while worn",
 
+  "item.earlypotions.master_alchemist_helmet": "Grand Alchemist's Crown",
+  "item.earlypotions.master_alchemist_chestplate": "Grand Alchemist's Chestplate",
+  "item.earlypotions.master_alchemist_leggings": "Grand Alchemist's Leggings",
+  "item.earlypotions.master_alchemist_boots": "Grand Alchemist's Boots",
+  "item.earlypotions.alchemist_master_armor.lore": "Master's might: stronger alchemical buffs while worn",
+
   "item.earlypotions.alchemist_blade": "Alchemist's Blade",
   "item.earlypotions.alchemist_blade.lore": "Weakens and lights up foes on hit",
 

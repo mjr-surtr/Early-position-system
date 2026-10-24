@@ -3,7 +3,6 @@ package com.besson.tutorial;
 import com.besson.tutorial.item.AlchemistArmorItem;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -36,17 +35,18 @@ public final class ModEvents {
             return;
         }
 
-        applyArmorEffect(player, EquipmentSlot.HEAD, MobEffects.NIGHT_VISION);
-        applyArmorEffect(player, EquipmentSlot.CHEST, MobEffects.DAMAGE_RESISTANCE);
-        applyArmorEffect(player, EquipmentSlot.LEGS, MobEffects.MOVEMENT_SPEED);
-        applyArmorEffect(player, EquipmentSlot.FEET, MobEffects.JUMP);
+        applyArmorEffect(player, EquipmentSlot.HEAD);
+        applyArmorEffect(player, EquipmentSlot.CHEST);
+        applyArmorEffect(player, EquipmentSlot.LEGS);
+        applyArmorEffect(player, EquipmentSlot.FEET);
     }
 
-    private static void applyArmorEffect(Player player, EquipmentSlot slot, MobEffect effect) {
+    private static void applyArmorEffect(Player player, EquipmentSlot slot) {
         ItemStack stack = player.getItemBySlot(slot);
-        if (!(stack.getItem() instanceof AlchemistArmorItem armor) || armor.getGrantedEffect() != effect) {
+        if (!(stack.getItem() instanceof AlchemistArmorItem armor)) {
             return;
         }
+        MobEffect effect = armor.getGrantedEffect();
         MobEffectInstance current = player.getEffect(effect);
         if (current == null || current.getDuration() < 200 || current.getAmplifier() < armor.getGrantedAmplifier()) {
             player.addEffect(new MobEffectInstance(effect, 300, armor.getGrantedAmplifier(), true, false, true), player);

@@ -15,6 +15,11 @@ public class ModArmorMaterials implements ArmorMaterial {
             new ModArmorMaterials("alchemist", 18, new int[]{2, 5, 6, 2}, 22,
                     SoundEvents.ARMOR_EQUIP_GOLD, 0.5F, 0.0F);
 
+    /** 进阶套装：更深邃的紫黑金属，防御与韧性接近下界合金。 */
+    public static final ModArmorMaterials ALCHEMIST_MASTER =
+            new ModArmorMaterials("alchemist_master", 24, new int[]{3, 6, 8, 3}, 25,
+                    SoundEvents.ARMOR_EQUIP_NETHERITE, 1.0F, 0.1F);
+
     private final String name;
     private final int durabilityMultiplier;
     /** 顺序：{靴子, 护腿, 胸甲, 头盔} */

@@ -22,6 +22,12 @@
   "item.earlypotions.alchemist_boots": "炼金战靴",
   "item.earlypotions.alchemist_armor.lore": "穿戴时持续获得对应的炼金增益",
 
+  "item.earlypotions.master_alchemist_helmet": "炼金宗师头冠",
+  "item.earlypotions.master_alchemist_chestplate": "炼金宗师胸甲",
+  "item.earlypotions.master_alchemist_leggings": "炼金宗师护腿",
+  "item.earlypotions.master_alchemist_boots": "炼金宗师战靴",
+  "item.earlypotions.alchemist_master_armor.lore": "宗师之力：穿戴时获得强化的炼金增益",
+
   "item.earlypotions.alchemist_blade": "炼金之刃",
   "item.earlypotions.alchemist_blade.lore": "命中敌人时附加虚弱与发光",
 

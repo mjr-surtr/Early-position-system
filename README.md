@@ -5,7 +5,7 @@
 ![Minecraft](https://img.shields.io/badge/Minecraft-1.20.1-green)
 ![Forge](https://img.shields.io/badge/Forge-47.2.1-orange)
 ![License](https://img.shields.io/badge/License-MIT-blue)
-![Version](https://img.shields.io/badge/version-1.1.2--1.20.1-brightgreen)
+![Version](https://img.shields.io/badge/version-1.1.4--1.20.1-brightgreen)
 
 ---
 
@@ -34,13 +34,13 @@
 | --- | --- |
 | 模组 ID | `earlypotions` |
 | 显示名称 | Early Potion System |
-| 版本 | `1.1.2-1.20.1` |
+| 版本 | `1.1.4-1.20.1` |
 | Minecraft | `1.20.1` |
 | Forge | `47.2.1`（`loaderVersion` 要求 `[47,)`） |
 | 许可证 | MIT |
 | 作者 | mjr666rt |
 | 源码包 | `com.besson.tutorial` |
-| 当前物品数 | 21 个注册物品 + 1 个方块 |
+| 当前物品数 | 25 个注册物品 + 1 个方块 |
 
 核心理念：**让药水增益不再依赖下界疣与烈焰粉**。玩家在游戏早期即可通过食物材料酿造 11 种药水，并进一步合成功能道具、炼金套装与隐藏彩蛋物品，形成从「采集 → 酿造 → 装备 → 探索」的完整体验闭环。
 
@@ -52,6 +52,7 @@
 - **11 种可饮用药水**：5 种基础药水 + 6 种扩展药水，全部使用原版饮用动画与效果提示。
 - **功能道具**：药水核心（合成材料）、炼金净化剂（清除负面效果）。
 - **炼金术士套装**：头盔 / 胸甲 / 护腿 / 战靴，**穿戴即持续生效**对应增益。
+- **炼金宗师套装**：由第一套盔甲用药水核心与金锭升级而来，防御、耐久与效果等级更高。
 - **炼金之刃**：命中附加虚弱与发光，自带附魔光泽。
 - **隐藏彩蛋**：炼金术士的秘酿，随机强力增益 + 隐藏揭示文本。
 - **JEI 支持（可选）**：安装 JEI 时展示全部酿造配方；未安装也能正常游戏。
@@ -69,7 +70,7 @@
 | Minecraft Forge | 47.2.1（≥ 47.0） | 是 |
 | JEI（Just Enough Items） | 15.x（1.20.1 版本） | 否（可选） |
 
-> 将构建产出的 `earlypotions-1.1.2-1.20.1.jar` 放入 `.minecraft/mods/` 即可。
+> 将构建产出的 `earlypotions-1.1.4-1.20.1.jar` 放入 `.minecraft/mods/` 即可。
 
 ### 本地开发（作为开发者）
 
@@ -127,7 +128,7 @@ gradlew.bat runGameTestServer
 gradlew.bat build
 ```
 
-产物路径：`build/libs/earlypotions-1.1.2-1.20.1.jar`
+产物路径：`build/libs/earlypotions-1.1.4-1.20.1.jar`
 
 > 提示：`gradlew.bat clean` 可清理构建缓存（不影响源码）；`gradlew.bat --refresh-dependencies` 可刷新依赖。
 
@@ -213,6 +214,17 @@ src/main/java/com/besson/tutorial/
 
 > 材质参数：耐久倍率 18、附魔值 22、韧性 0.5、击退抗性 0、修复材料为药水核心。炼金之刃工具等级为钻石级（`level 3`）。
 
+### 炼金宗师套装（进阶战斗向，穿戴即生效）
+
+| ID | 名称 | 穿戴增益 | 防御力 | 耐久 |
+| --- | --- | --- | --- | --- |
+| `master_alchemist_helmet` | 炼金宗师头冠 | 防火（I） | 3 | 264 |
+| `master_alchemist_chestplate` | 炼金宗师胸甲 | 抗性提升（II） | 8 | 384 |
+| `master_alchemist_leggings` | 炼金宗师护腿 | 速度提升（I） | 6 | 360 |
+| `master_alchemist_boots` | 炼金宗师战靴 | 力量（II） | 3 | 312 |
+
+> 材质参数：耐久倍率 24、附魔值 25、韧性 1.0、击退抗性 0.1、穿脱音效为下界合金，修复材料同为药水核心。四件均由对应第一套盔甲 + 药水核心 + 金锭升级合成。
+
 ### 隐藏彩蛋
 
 | ID | 名称 | 效果 |
@@ -261,6 +273,10 @@ src/main/java/com/besson/tutorial/
 | 炼金护腿 | 药水核心 ×7（护腿形） | ×1 |
 | 炼金战靴 | 药水核心 ×4（靴子形） | ×1 |
 | 炼金之刃 | 药水核心 ×2 + 木棍 | ×1 |
+| 炼金宗师头冠 | 炼金护目镜 + 药水核心 ×3 + 金锭 ×2（无序） | ×1 |
+| 炼金宗师胸甲 | 炼金胸甲 + 药水核心 ×4 + 金锭 ×3（无序） | ×1 |
+| 炼金宗师护腿 | 炼金护腿 + 药水核心 ×4 + 金锭 ×3（无序） | ×1 |
+| 炼金宗师战靴 | 炼金战靴 + 药水核心 ×2 + 金锭 ×2（无序） | ×1 |
 | 早期全能药水 | 5 款基础药水（无序） | ×1 |
 | 早期炼药台 | 8 圆石 + 玻璃瓶 + 熔炉 | ×1 |
 | 炼金术士的秘酿 | 药水核心 ×4 + 早期全能药水 | ×1 |
@@ -304,8 +320,8 @@ static {
 
 ```java
 new AlchemistArmorItem(ModArmorMaterials.ALCHEMIST, ArmorItem.Type.HELMET,
-        MobEffects.NIGHT_VISION, 0, new Item.Properties());
-//        ↑ 材质            ↑ 部位             ↑ 增益效果          ↑ 等级
+        MobEffects.NIGHT_VISION, 0, "alchemist", new Item.Properties());
+//        ↑ 材质            ↑ 部位             ↑ 增益效果        ↑ 等级  ↑ 盔甲层贴图前缀
 ```
 
 续期规则（`ModEvents#applyArmorEffect`）：当效果不存在、剩余时长 < 200 tick 或等级低于装备要求时，补充 300 tick 的增益。

@@ -83,22 +83,44 @@ public class Moditems {
     public static final RegistryObject<Item> ALCHEMIST_HELMET =
             ITEMS.register("alchemist_helmet", () -> new AlchemistArmorItem(
                     ModArmorMaterials.ALCHEMIST, ArmorItem.Type.HELMET,
-                    MobEffects.NIGHT_VISION, 0, new Item.Properties()));
+                    MobEffects.NIGHT_VISION, 0, "alchemist", new Item.Properties()));
 
     public static final RegistryObject<Item> ALCHEMIST_CHESTPLATE =
             ITEMS.register("alchemist_chestplate", () -> new AlchemistArmorItem(
                     ModArmorMaterials.ALCHEMIST, ArmorItem.Type.CHESTPLATE,
-                    MobEffects.DAMAGE_RESISTANCE, 0, new Item.Properties()));
+                    MobEffects.DAMAGE_RESISTANCE, 0, "alchemist", new Item.Properties()));
 
     public static final RegistryObject<Item> ALCHEMIST_LEGGINGS =
             ITEMS.register("alchemist_leggings", () -> new AlchemistArmorItem(
                     ModArmorMaterials.ALCHEMIST, ArmorItem.Type.LEGGINGS,
-                    MobEffects.MOVEMENT_SPEED, 0, new Item.Properties()));
+                    MobEffects.MOVEMENT_SPEED, 0, "alchemist", new Item.Properties()));
 
     public static final RegistryObject<Item> ALCHEMIST_BOOTS =
             ITEMS.register("alchemist_boots", () -> new AlchemistArmorItem(
                     ModArmorMaterials.ALCHEMIST, ArmorItem.Type.BOOTS,
-                    MobEffects.JUMP, 0, new Item.Properties()));
+                    MobEffects.JUMP, 0, "alchemist", new Item.Properties()));
+
+    // ==================== 炼金宗师套装（进阶战斗向） ====================
+
+    public static final RegistryObject<Item> MASTER_ALCHEMIST_HELMET =
+            ITEMS.register("master_alchemist_helmet", () -> new AlchemistArmorItem(
+                    ModArmorMaterials.ALCHEMIST_MASTER, ArmorItem.Type.HELMET,
+                    MobEffects.FIRE_RESISTANCE, 0, "alchemist_master", new Item.Properties()));
+
+    public static final RegistryObject<Item> MASTER_ALCHEMIST_CHESTPLATE =
+            ITEMS.register("master_alchemist_chestplate", () -> new AlchemistArmorItem(
+                    ModArmorMaterials.ALCHEMIST_MASTER, ArmorItem.Type.CHESTPLATE,
+                    MobEffects.DAMAGE_RESISTANCE, 1, "alchemist_master", new Item.Properties()));
+
+    public static final RegistryObject<Item> MASTER_ALCHEMIST_LEGGINGS =
+            ITEMS.register("master_alchemist_leggings", () -> new AlchemistArmorItem(
+                    ModArmorMaterials.ALCHEMIST_MASTER, ArmorItem.Type.LEGGINGS,
+                    MobEffects.MOVEMENT_SPEED, 0, "alchemist_master", new Item.Properties()));
+
+    public static final RegistryObject<Item> MASTER_ALCHEMIST_BOOTS =
+            ITEMS.register("master_alchemist_boots", () -> new AlchemistArmorItem(
+                    ModArmorMaterials.ALCHEMIST_MASTER, ArmorItem.Type.BOOTS,
+                    MobEffects.DAMAGE_BOOST, 1, "alchemist_master", new Item.Properties()));
 
     /** 炼金之刃：命中附加虚弱与发光。 */
     public static final RegistryObject<Item> ALCHEMIST_BLADE =

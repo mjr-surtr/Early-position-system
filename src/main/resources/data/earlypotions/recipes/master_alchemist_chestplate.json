@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    { "item": "earlypotions:alchemist_chestplate" },
+    { "item": "earlypotions:potion_core" },
+    { "item": "earlypotions:potion_core" },
+    { "item": "earlypotions:potion_core" },
+    { "item": "earlypotions:potion_core" },
+    { "item": "minecraft:gold_ingot" },
+    { "item": "minecraft:gold_ingot" },
+    { "item": "minecraft:gold_ingot" }
+  ],
+  "result": {
+    "item": "earlypotions:master_alchemist_chestplate",
+    "count": 1
+  }
+}
