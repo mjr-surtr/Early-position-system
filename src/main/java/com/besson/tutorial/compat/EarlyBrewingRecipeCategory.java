@@ -33,7 +33,7 @@ public class EarlyBrewingRecipeCategory implements IRecipeCategory<EarlyBrewingR
         this.background = guiHelper.createBlankDrawable(72, 55);
         this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK,
                 new ItemStack(ModBlocks.EARLY_BREWING_STAND.get()));
-                                                                                                                                                                                                                                                                                                                                            }
+    }
 
     @Override
     public RecipeType<EarlyBrewingRecipe> getRecipeType() {

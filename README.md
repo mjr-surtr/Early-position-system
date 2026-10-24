@@ -38,7 +38,7 @@
 | Minecraft | `1.20.1` |
 | Forge | `47.2.1`（`loaderVersion` 要求 `[47,)`） |
 | 许可证 | MIT |
-| 作者 | mjr666rt, OtherNameHere |
+| 作者 | mjr666rt |
 | 源码包 | `com.besson.tutorial` |
 | 当前物品数 | 21 个注册物品 + 1 个方块 |
 
@@ -88,8 +88,8 @@
 ### 1. 克隆仓库
 
 ```bash
-git clone https://github.com/mjr-surtr/mcmod.git
-cd mcmod
+git clone https://github.com/mjr-surtr/Early-position-system.git
+cd Early-position-system
 ```
 
 ### 2. 首次初始化工作区（下载并反编译 Minecraft，耗时较长）
