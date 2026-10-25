@@ -1,7 +1,19 @@
 {
-  "variants": {
-    "": {
-      "model": "earlypotions:block/early_brewing_stand"
+  "multipart": [
+    {
+      "apply": { "model": "earlypotions:block/early_brewing_stand" }
+    },
+    {
+      "when": { "has_bottle_0": "true" },
+      "apply": { "model": "earlypotions:block/early_brewing_stand_bottle_0" }
+    },
+    {
+      "when": { "has_bottle_1": "true" },
+      "apply": { "model": "earlypotions:block/early_brewing_stand_bottle_1" }
+    },
+    {
+      "when": { "has_bottle_2": "true" },
+      "apply": { "model": "earlypotions:block/early_brewing_stand_bottle_2" }
     }
-  }
+  ]
 }

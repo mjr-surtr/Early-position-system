@@ -1,0 +1,57 @@
+{
+  "ambientocclusion": true,
+  "gui_light": "side",
+  "textures": {
+    "side": "earlypotions:block/early_brewing_stand_bottle",
+    "neck": "earlypotions:block/early_brewing_stand_bottle",
+    "cork": "earlypotions:block/early_brewing_stand_bottle",
+    "particle": "earlypotions:block/early_brewing_stand_bottle"
+  },
+  "elements": [
+    {
+      "from": [6.9, 4, 3.4625],
+      "to": [9.1, 7.6, 5.6625],
+      "faces": {
+        "down": { "texture": "#neck", "uv": [0, 8, 8, 16] },
+        "up": { "texture": "#side", "uv": [8, 0, 16, 8] },
+        "north": { "texture": "#side", "uv": [0, 0, 8, 8] },
+        "south": { "texture": "#side", "uv": [0, 0, 8, 8] },
+        "west": { "texture": "#side", "uv": [0, 0, 8, 8] },
+        "east": { "texture": "#side", "uv": [0, 0, 8, 8] }
+      }
+    },
+    {
+      "from": [7.3, 7.6, 3.8625],
+      "to": [8.7, 8.2, 5.2625],
+      "faces": {
+        "up": { "texture": "#neck", "uv": [0, 8, 8, 16] },
+        "north": { "texture": "#neck", "uv": [0, 8, 8, 16] },
+        "south": { "texture": "#neck", "uv": [0, 8, 8, 16] },
+        "west": { "texture": "#neck", "uv": [0, 8, 8, 16] },
+        "east": { "texture": "#neck", "uv": [0, 8, 8, 16] }
+      }
+    },
+    {
+      "from": [7.6, 8.2, 4.1625],
+      "to": [8.4, 9, 4.9625],
+      "faces": {
+        "north": { "texture": "#neck", "uv": [0, 8, 8, 16] },
+        "south": { "texture": "#neck", "uv": [0, 8, 8, 16] },
+        "west": { "texture": "#neck", "uv": [0, 8, 8, 16] },
+        "east": { "texture": "#neck", "uv": [0, 8, 8, 16] }
+      }
+    },
+    {
+      "from": [7.4, 9, 3.9625],
+      "to": [8.6, 9.5, 5.1625],
+      "faces": {
+        "down": { "texture": "#cork", "uv": [8, 8, 16, 16] },
+        "up": { "texture": "#cork", "uv": [8, 8, 16, 16] },
+        "north": { "texture": "#cork", "uv": [8, 8, 16, 16] },
+        "south": { "texture": "#cork", "uv": [8, 8, 16, 16] },
+        "west": { "texture": "#cork", "uv": [8, 8, 16, 16] },
+        "east": { "texture": "#cork", "uv": [8, 8, 16, 16] }
+      }
+    }
+  ]
+}

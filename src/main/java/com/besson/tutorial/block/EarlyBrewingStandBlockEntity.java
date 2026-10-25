@@ -22,6 +22,7 @@ import net.minecraft.world.item.alchemy.PotionBrewing;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -198,6 +199,7 @@ public class EarlyBrewingStandBlockEntity extends BlockEntity implements MenuPro
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, EarlyBrewingStandBlockEntity entity) {
+        state = syncBottleStates(level, pos, state, entity);
         ItemStack fuelStack = entity.items.get(SLOT_FUEL);
         if (entity.fuel <= 0 && isFuel(fuelStack)) {
             entity.fuel = FUEL_USES;
@@ -235,6 +237,23 @@ public class EarlyBrewingStandBlockEntity extends BlockEntity implements MenuPro
         } else {
             if (entity.brewTime != 0) { entity.brewTime = 0; setChanged(level, pos, state); }
         }
+    }
+
+    /**
+     * 把三个药水槽是否有物品同步到方块状态，供 multipart 模型显示/隐藏瓶身。
+     *
+     * @return 同步后实际生效的方块状态
+     */
+    private static BlockState syncBottleStates(Level level, BlockPos pos, BlockState state,
+                                               EarlyBrewingStandBlockEntity entity) {
+        BlockState updated = state
+                .setValue(EarlyBrewingStandBlock.HAS_BOTTLE_0, !entity.items.get(0).isEmpty())
+                .setValue(EarlyBrewingStandBlock.HAS_BOTTLE_1, !entity.items.get(1).isEmpty())
+                .setValue(EarlyBrewingStandBlock.HAS_BOTTLE_2, !entity.items.get(2).isEmpty());
+        if (updated != state) {
+            level.setBlock(pos, updated, Block.UPDATE_CLIENTS);
+        }
+        return updated;
     }
 
     private boolean canBrew() {

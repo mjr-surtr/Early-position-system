@@ -1,7 +1,75 @@
 {
-  "parent": "minecraft:item/generated",
+  "parent": "minecraft:block/block",
   "textures": {
-    "layer0": "earlypotions:item/potion_core"
+    "particle": "earlypotions:item/potion_core",
+    "facet": "earlypotions:item/potion_core",
+    "lit": "earlypotions:item/potion_core",
+    "shade": "earlypotions:item/potion_core",
+    "ring": "earlypotions:item/potion_core"
   },
-  "gui_light": "front"
+  "elements": [
+    {
+      "from": [5.0, 5.0, 5.0],
+      "to": [11.0, 11.0, 11.0],
+      "rotation": { "origin": [8, 8, 8], "axis": "y", "angle": 45 },
+      "faces": {
+        "down": { "uv": [0, 8, 8, 16], "texture": "#shade" },
+        "up": { "uv": [8, 0, 16, 8], "texture": "#lit" },
+        "north": { "uv": [0, 0, 8, 8], "texture": "#facet" },
+        "south": { "uv": [0, 0, 8, 8], "texture": "#facet" },
+        "west": { "uv": [0, 0, 8, 8], "texture": "#facet" },
+        "east": { "uv": [0, 0, 8, 8], "texture": "#facet" }
+      }
+    },
+    {
+      "from": [5.3, 5.3, 5.3],
+      "to": [10.7, 10.7, 10.7],
+      "rotation": { "origin": [8, 8, 8], "axis": "x", "angle": 45 },
+      "faces": {
+        "down": { "uv": [0, 8, 8, 16], "texture": "#shade" },
+        "up": { "uv": [8, 0, 16, 8], "texture": "#lit" },
+        "north": { "uv": [0, 0, 8, 8], "texture": "#facet" },
+        "south": { "uv": [0, 0, 8, 8], "texture": "#facet" },
+        "west": { "uv": [0, 0, 8, 8], "texture": "#facet" },
+        "east": { "uv": [0, 0, 8, 8], "texture": "#facet" }
+      }
+    },
+    {
+      "from": [5.6, 5.6, 5.6],
+      "to": [10.4, 10.4, 10.4],
+      "rotation": { "origin": [8, 8, 8], "axis": "z", "angle": 45 },
+      "faces": {
+        "down": { "uv": [0, 8, 8, 16], "texture": "#shade" },
+        "up": { "uv": [8, 0, 16, 8], "texture": "#lit" },
+        "north": { "uv": [0, 0, 8, 8], "texture": "#facet" },
+        "south": { "uv": [0, 0, 8, 8], "texture": "#facet" },
+        "west": { "uv": [0, 0, 8, 8], "texture": "#facet" },
+        "east": { "uv": [0, 0, 8, 8], "texture": "#facet" }
+      }
+    },
+    {
+      "from": [6.9, 11.9, 6.9],
+      "to": [9.1, 12.8, 9.1],
+      "faces": {
+        "down": { "uv": [8, 8, 16, 16], "texture": "#ring" },
+        "up": { "uv": [8, 8, 16, 16], "texture": "#ring" },
+        "north": { "uv": [8, 8, 16, 16], "texture": "#ring" },
+        "south": { "uv": [8, 8, 16, 16], "texture": "#ring" },
+        "west": { "uv": [8, 8, 16, 16], "texture": "#ring" },
+        "east": { "uv": [8, 8, 16, 16], "texture": "#ring" }
+      }
+    },
+    {
+      "from": [6.9, 3.2, 6.9],
+      "to": [9.1, 4.1, 9.1],
+      "faces": {
+        "down": { "uv": [8, 8, 16, 16], "texture": "#ring" },
+        "up": { "uv": [8, 8, 16, 16], "texture": "#ring" },
+        "north": { "uv": [8, 8, 16, 16], "texture": "#ring" },
+        "south": { "uv": [8, 8, 16, 16], "texture": "#ring" },
+        "west": { "uv": [8, 8, 16, 16], "texture": "#ring" },
+        "east": { "uv": [8, 8, 16, 16], "texture": "#ring" }
+      }
+    }
+  ]
 }

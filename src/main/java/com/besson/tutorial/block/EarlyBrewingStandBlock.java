@@ -33,7 +33,15 @@ public class EarlyBrewingStandBlock extends BaseEntityBlock {
 
     private static final VoxelShape SHAPE = Shapes.or(
             Block.box(1, 0, 1, 15, 2, 15),
-            Block.box(7, 0, 7, 9, 14, 9)
+            Block.box(0, 0, 0, 3, 4, 3),
+            Block.box(13, 0, 0, 16, 4, 3),
+            Block.box(0, 0, 13, 3, 4, 16),
+            Block.box(13, 0, 13, 16, 4, 16),
+            Block.box(2, 2, 2, 14, 3, 14),
+            Block.box(3, 3, 3, 13, 4, 13),
+            Block.box(6, 4, 6, 10, 15, 10),
+            Block.box(5, 11, 5, 11, 13, 11),
+            Block.box(11, 9, 7, 14, 12, 9)
     );
 
     public EarlyBrewingStandBlock(BlockBehaviour.Properties properties) {

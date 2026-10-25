@@ -1,7 +1,9 @@
 {
-  "parent": "minecraft:item/generated",
-  "gui_light": "front",
+  "parent": "earlypotions:item/potion_bottle",
   "textures": {
-    "layer0": "earlypotions:item/early_strength_potion"
+    "side": "earlypotions:item/early_strength_potion",
+    "neck": "earlypotions:item/early_strength_potion",
+    "cork": "earlypotions:item/early_strength_potion",
+    "particle": "earlypotions:item/early_strength_potion"
   }
 }

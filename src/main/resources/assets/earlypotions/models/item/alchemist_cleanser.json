@@ -1,7 +1,9 @@
 {
-  "parent": "minecraft:item/generated",
+  "parent": "earlypotions:item/potion_bottle",
   "textures": {
-    "layer0": "earlypotions:item/alchemist_cleanser"
-  },
-  "gui_light": "front"
+    "side": "earlypotions:item/alchemist_cleanser",
+    "neck": "earlypotions:item/alchemist_cleanser",
+    "cork": "earlypotions:item/alchemist_cleanser",
+    "particle": "earlypotions:item/alchemist_cleanser"
+  }
 }

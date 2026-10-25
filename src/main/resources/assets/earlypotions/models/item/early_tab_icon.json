@@ -1,7 +1,9 @@
 {
-  "parent": "minecraft:item/generated",
-  "gui_light": "front",
+  "parent": "earlypotions:item/potion_bottle",
   "textures": {
-    "layer0": "earlypotions:item/early_tab_icon"
+    "side": "earlypotions:item/early_tab_icon",
+    "neck": "earlypotions:item/early_tab_icon",
+    "cork": "earlypotions:item/early_tab_icon",
+    "particle": "earlypotions:item/early_tab_icon"
   }
 }

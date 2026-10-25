@@ -70,14 +70,14 @@ public class PotionsV2 {
         Files.createDirectories(block);
 
         for (int i = 0; i < POTIONS.length; i++) {
-            save(items, POTIONS[i], potion(i));
+            save(items, POTIONS[i], potionAtlas(i));
         }
-        save(items, "potion_core", core(ALCHEMIST));
+        save(items, "potion_core", coreAtlas(ALCHEMIST));
         save(items, "alchemist_helmet", helmetIcon(ALCHEMIST, false));
         save(items, "alchemist_chestplate", chestIcon(ALCHEMIST));
         save(items, "alchemist_leggings", legsIcon(ALCHEMIST));
         save(items, "alchemist_boots", bootsIcon(ALCHEMIST));
-        save(items, "alchemist_blade", bladeIcon(ALCHEMIST));
+        save(items, "alchemist_blade", bladeAtlas());
 
         save(items, "master_alchemist_helmet", helmetIcon(MASTER, true));
         save(items, "master_alchemist_chestplate", chestIcon(MASTER));
@@ -90,6 +90,10 @@ public class PotionsV2 {
         save(armor, "alchemist_master_layer_2", layer2(MASTER, true));
 
         save(block, "early_brewing_stand", brewingStand());
+        save(block, "early_brewing_stand_gold", brewingStandGold());
+        save(block, "early_brewing_stand_inlay", brewingStandInlay());
+        save(block, "early_brewing_stand_glow", brewingStandGlow());
+        save(block, "early_brewing_stand_bottle", brewingStandBottle());
         System.out.println("Generated textures in " + textures.toAbsolutePath());
     }
 
@@ -220,92 +224,169 @@ public class PotionsV2 {
 
     // ==================== 药水 ====================
 
-    private static BufferedImage potion(int type) {
-        BufferedImage image = canvas();
-        int liquid = LIQUIDS[type];
-        // 每一行的左边界（y = 1..29），构成圆肩玻璃瓶
-        int[] left = {12, 12, 12, 10, 10, 12, 12, 12, 12, 9, 8, 7, 7, 6,
-                5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 7, 8, 9};
-
-        for (int i = 0; i < left.length; i++) {
-            int y = i + 1;
-            int l = left[i];
-            int r = 31 - l;
-            for (int x = l; x <= r; x++) {
-                boolean edge = x == l || x == r || y == 29;
-                int color;
-                if (edge) {
-                    color = INK;
-                } else if (y <= 3) {
-                    color = y == 1 ? 0xFFD8AC72 : x < 16 ? 0xFFB0814F : 0xFF7A5636;
-                } else if (y <= 5) {
-                    color = y == 4 ? LIGHT_GOLD : GOLD;
-                    if (x == l + 1 || x == r - 1) {
-                        color = DARK_GOLD;
-                    }
-                } else if (y <= 8) {
-                    color = x < 15 ? 0xFFBFD4E2 : 0xFF8FA6B8;
-                } else if (y == 9) {
-                    color = GOLD;
-                } else if (y < 15) {
-                    color = x < 13 ? 0xCCBBD2E2 : 0xB08FA6B8;
-                } else {
-                    double shade = 1.0;
-                    if (y == 15) {
-                        shade = 1.35;
-                    } else if (y > 25) {
-                        shade = 0.72;
-                    } else if (x > 22) {
-                        shade = 0.78;
-                    } else if (x < 10) {
-                        shade = 1.15;
-                    }
-                    color = tint(liquid, shade);
-                }
-                pixel(image, x, y, color);
-            }
-        }
-
-        // 玻璃高光与瓶底阴影
-        rect(image, 8, 16, 2, 8, 0xFFE4F1F2);
-        rect(image, 8, 16, 1, 4, WHITE);
-        pixel(image, 23, 12, 0xFFD8E6EE);
-        pixel(image, 24, 14, 0xFFBCCBD8);
-        rect(image, 11, 27, 9, 1, tint(liquid, 1.2));
-        rect(image, 23, 20, 1, 5, tint(liquid, 0.6));
-        // 液面高光
-        rect(image, 11, 15, 7, 1, tint(liquid, 1.5));
-
-        String[] emblem = EMBLEMS[type];
-        int ex = 16 - emblem[0].length() / 2;
-        int ey = 21 - emblem.length / 2;
-        stamp(image, ex + 1, ey + 1, emblem, tint(liquid, 0.45));
+    /**
+     * 32x32 图集，四象限分别被方块瓶身与物品 3D 瓶身按 uv 取样：
+     * 左上 (0,0)-(16,16) 瓶身侧面（液体 + 徽记）-> uv [0,0,8,8]
+     * 右上 (16,0)-(32,16) 液面               -> uv [8,0,16,8]
+     * 左下 (0,16)-(16,32) 玻璃瓶肩/瓶颈侧面     -> uv [0,8,8,16]
+     * 右下 (16,16)-(32,32) 软木塞             -> uv [8,8,16,16]
+     */
+    private static BufferedImage potionAtlas(int type) {
         int emblemColor = (type == 3 || type == 4 || type == 12) ? LIGHT_GOLD : WHITE;
-        stamp(image, ex, ey, emblem, emblemColor);
-
+        BufferedImage image = bottleAtlas(LIQUIDS[type], EMBLEMS[type], emblemColor);
         if (type == 13) {
-            rect(image, 15, 19, 2, 2, 0xFFA2ECE0);
-            pixel(image, 14, 20, 0xFFEFA3BC);
+            pixel(image, 29, 17, 0xFFA2ECE0);
+            pixel(image, 30, 18, 0xFFA2ECE0);
+            pixel(image, 28, 18, 0xFFEFA3BC);
         }
         return image;
     }
 
+    private static BufferedImage bottleAtlas(int liquid, String[] emblem, int emblemColor) {
+        BufferedImage image = canvas();
+        drawBottleBodySide(image, 0, 0, liquid, emblem, emblemColor);
+        drawLiquidSurface(image, 16, 0, liquid);
+        drawGlassNeck(image, 0, 16, liquid);
+        drawCork(image, 16, 16);
+        return image;
+    }
+
+    /** 瓶身侧面：液体竖向渐变 + 左侧玻璃高光 + 中央徽记 */
+    private static void drawBottleBodySide(BufferedImage image, int ox, int oy,
+                                           int liquid, String[] emblem, int emblemColor) {
+        for (int y = 0; y < 16; y++) {
+            double factor = 1.18 - y * 0.028;
+            for (int x = 0; x < 16; x++) {
+                double shade = factor;
+                if (x == 0) {
+                    shade = factor * 1.28;
+                } else if (x == 15) {
+                    shade = factor * 0.66;
+                } else if (x == 14) {
+                    shade = factor * 0.84;
+                }
+                pixel(image, ox + x, oy + y, tint(liquid, shade));
+            }
+        }
+        // 玻璃上缘、瓶底与竖向高光
+        rect(image, ox, oy, 16, 1, mix(liquid, WHITE, 0.55));
+        rect(image, ox, oy + 15, 16, 1, tint(liquid, 0.55));
+        rect(image, ox + 2, oy + 2, 2, 11, mix(liquid, WHITE, 0.4));
+        rect(image, ox + 2, oy + 2, 1, 7, mix(liquid, WHITE, 0.7));
+        // 徽记：先投影再描亮
+        int ex = ox + (16 - emblem[0].length()) / 2;
+        int ey = oy + (16 - emblem.length) / 2;
+        stamp(image, ex + 1, ey + 1, emblem, tint(liquid, 0.45));
+        stamp(image, ex, ey, emblem, emblemColor);
+    }
+
+    /** 液面：受光的顶面 + 玻璃边环 + 斜向涡纹 */
+    private static void drawLiquidSurface(BufferedImage image, int ox, int oy, int liquid) {
+        rect(image, ox, oy, 16, 16, tint(liquid, 1.12));
+        rect(image, ox, oy, 16, 1, mix(liquid, WHITE, 0.6));
+        rect(image, ox, oy, 1, 16, mix(liquid, WHITE, 0.45));
+        rect(image, ox, oy + 15, 16, 1, tint(liquid, 0.62));
+        rect(image, ox + 15, oy, 1, 16, tint(liquid, 0.72));
+        line(image, ox + 3, oy + 11, ox + 11, oy + 4, mix(liquid, WHITE, 0.3));
+        line(image, ox + 4, oy + 12, ox + 12, oy + 5, tint(liquid, 1.45));
+        pixel(image, ox + 4, oy + 4, mix(liquid, WHITE, 0.8));
+        pixel(image, ox + 5, oy + 5, mix(liquid, WHITE, 0.45));
+    }
+
+    /** 玻璃瓶肩与瓶颈：冷色玻璃渐变 + 竖向反光 + 黄铜束环 */
+    private static void drawGlassNeck(BufferedImage image, int ox, int oy, int liquid) {
+        for (int y = 0; y < 16; y++) {
+            for (int x = 0; x < 16; x++) {
+                int color = 0xFFBBD2E2;
+                if (x <= 1) {
+                    color = 0xFFE4F1F2;
+                } else if (x >= 14) {
+                    color = 0xFF8FA6B8;
+                } else if (x >= 12) {
+                    color = 0xFFA8BFCE;
+                }
+                pixel(image, ox + x, oy + y, color);
+            }
+        }
+        rect(image, ox + 3, oy, 2, 16, 0xFFF0FAFA);
+        rect(image, ox + 3, oy + 2, 1, 10, WHITE);
+        // 残留药液透过玻璃
+        rect(image, ox + 5, oy + 10, 6, 2, tint(liquid, 1.05));
+        // 肩部黄铜束环
+        rect(image, ox, oy + 13, 16, 2, GOLD);
+        rect(image, ox, oy + 13, 16, 1, LIGHT_GOLD);
+        rect(image, ox, oy + 15, 16, 1, DARK_GOLD);
+    }
+
+    /** 软木塞：木纹 + 上下压印 */
+    private static void drawCork(BufferedImage image, int ox, int oy) {
+        for (int y = 0; y < 16; y++) {
+            for (int x = 0; x < 16; x++) {
+                int color = (x * 5 + y * 3) % 7 == 0 ? 0xFFC49460 : 0xFFB0814F;
+                if (x == 0 || x == 15) {
+                    color = 0xFF7A5636;
+                }
+                if (y == 0) {
+                    color = 0xFFD8AC72;
+                } else if (y == 15) {
+                    color = 0xFF6A4A2E;
+                }
+                pixel(image, ox + x, oy + y, color);
+            }
+        }
+        rect(image, ox + 3, oy + 2, 10, 1, 0xFF8A6240);
+        rect(image, ox + 3, oy + 13, 10, 1, 0xFF8A6240);
+    }
+
+    /** 炼药台瓶身：默认紫色夜视药水，与方块模型共用同一图集布局 */
+    private static BufferedImage brewingStandBottle() {
+        return bottleAtlas(LIQUIDS[0], EMBLEMS[0], WHITE);
+    }
+
     // ==================== 物品图标 ====================
 
-    private static BufferedImage core(Palette p) {
+    /**
+     * 炼金核心图集（供八面水晶 3D 模型按面取样）：
+     * 左上主棱面 uv[0,0,8,8]、右上受光面 uv[8,0,16,8]、
+     * 左下背光面 uv[0,8,8,16]、右下金环 uv[8,8,16,16]。
+     */
+    private static BufferedImage coreAtlas(Palette p) {
         BufferedImage image = canvas();
-        polygon(image, INK, 14, 2, 20, 3, 28, 12, 28, 20, 19, 29, 11, 29, 3, 20, 3, 12);
-        polygon(image, p.trim(), 14, 4, 19, 5, 26, 13, 26, 19, 18, 27, 12, 27, 5, 19, 5, 13);
-        polygon(image, DARK_GOLD, 25, 13, 26, 19, 18, 27, 12, 27, 10, 25, 18, 24);
-        polygon(image, INK, 15, 6, 23, 14, 23, 19, 16, 25, 8, 18, 8, 14);
-        polygon(image, p.base(), 15, 8, 21, 14, 21, 18, 16, 23, 10, 18, 10, 14);
-        polygon(image, p.light(), 15, 8, 16, 15, 10, 17, 10, 14);
-        polygon(image, p.dark(), 16, 15, 21, 14, 21, 18, 16, 23);
-        polygon(image, mix(p.base(), p.gem(), 0.45), 10, 18, 16, 15, 16, 23);
-        rect(image, 14, 11, 2, 3, WHITE);
-        pixel(image, 6, 13, LIGHT_GOLD);
-        pixel(image, 19, 6, LIGHT_GOLD);
+        facet(image, 0, 0, p.base(), p.light(), p.dark(), true);
+        facet(image, 16, 0, p.light(), mix(p.light(), WHITE, 0.5), p.base(), false);
+        facet(image, 0, 16, p.dark(), p.base(), p.shadow(), false);
+        // 金环
+        rect(image, 16, 16, 16, 16, GOLD);
+        rect(image, 16, 16, 16, 2, LIGHT_GOLD);
+        rect(image, 16, 30, 16, 2, DARK_GOLD);
+        rect(image, 16, 16, 2, 16, LIGHT_GOLD);
+        rect(image, 30, 16, 2, 16, DARK_GOLD);
+        for (int i = 0; i < 15; i += 5) {
+            rect(image, 17 + i, 24, 2, 2, 0xFF6E4C24);
+            pixel(image, 17 + i, 24, 0xFFF0CB80);
+        }
+        rect(image, 23, 19, 2, 1, TEAL);
         return image;
+    }
+
+    /** 水晶棱面：对角明暗渐变 + 两道切面线 */
+    private static void facet(BufferedImage image, int ox, int oy,
+                              int base, int light, int dark, boolean sparkle) {
+        for (int y = 0; y < 16; y++) {
+            for (int x = 0; x < 16; x++) {
+                int color = mix(light, dark, (x + y) / 30.0);
+                if ((x + y) % 11 == 0) {
+                    color = mix(color, light, 0.25);
+                }
+                pixel(image, ox + x, oy + y, color);
+            }
+        }
+        line(image, ox + 2, oy + 13, ox + 13, oy + 2, mix(base, WHITE, 0.35));
+        line(image, ox + 4, oy + 14, ox + 14, oy + 4, mix(base, INK, 0.35));
+        if (sparkle) {
+            rect(image, ox + 4, oy + 4, 2, 3, WHITE);
+            pixel(image, ox + 3, oy + 5, mix(WHITE, base, 0.4));
+        }
     }
 
     private static BufferedImage helmetIcon(Palette p, boolean master) {
@@ -461,25 +542,53 @@ public class PotionsV2 {
         return image;
     }
 
-    private static BufferedImage bladeIcon(Palette p) {
+    /**
+     * 炼金之刃图集（供 3D 剑模型按部件取样）：
+     * 左上刃身 uv[0,0,8,8]、右上黄铜 uv[8,0,16,8]、
+     * 左下握柄 uv[0,8,8,16]、右下宝石 uv[8,8,16,16]。
+     */
+    private static BufferedImage bladeAtlas() {
         BufferedImage image = canvas();
-        // 斜向刀刃：上缘高光、下缘暗面
-        polygon(image, INK, 28, 2, 30, 2, 29, 10, 14, 25, 7, 18, 22, 3);
-        polygon(image, p.light(), 27, 4, 28, 4, 26, 9, 13, 22, 10, 19);
-        polygon(image, p.base(), 27, 5, 27, 9, 14, 22, 13, 20);
-        polygon(image, p.dark(), 27, 9, 28, 7, 27, 11, 14, 24, 13, 22);
-        polygon(image, WHITE, 24, 5, 27, 4, 12, 19, 11, 19);
-        // 护手
-        polygon(image, INK, 5, 16, 7, 15, 17, 25, 16, 28, 13, 27, 4, 19);
-        polygon(image, p.trim(), 6, 17, 8, 17, 16, 25, 15, 26, 13, 25, 5, 18);
-        rect(image, 10, 20, 3, 3, DARK_GOLD);
-        pixel(image, 11, 20, p.gem());
-        // 握柄与柄头
-        polygon(image, INK, 7, 21, 11, 25, 6, 30, 2, 30, 2, 26);
-        polygon(image, 0xFF71516D, 7, 23, 9, 25, 5, 29, 3, 27);
-        pixel(image, 6, 25, GOLD);
-        rect(image, 2, 28, 3, 2, p.trim());
-        pixel(image, 2, 28, LIGHT_GOLD);
+        // 刃身：纵向亮脊 + 两侧压暗
+        for (int y = 0; y < 16; y++) {
+            for (int x = 0; x < 16; x++) {
+                int color = 0xFFC3D4E0;
+                if (x <= 1 || x >= 14) {
+                    color = 0xFF5E6B79;
+                } else if (x <= 4 || x >= 11) {
+                    color = 0xFF8FA2B4;
+                }
+                if (x == 7 || x == 8) {
+                    color = 0xFFEAF4FA;
+                }
+                if (y == 0 || y == 15) {
+                    color = 0xFF8794A2;
+                }
+                pixel(image, x, y, color);
+            }
+        }
+        // 黄铜构件
+        rect(image, 16, 0, 16, 16, GOLD);
+        rect(image, 16, 0, 16, 2, LIGHT_GOLD);
+        rect(image, 16, 14, 16, 2, DARK_GOLD);
+        rect(image, 16, 0, 2, 16, LIGHT_GOLD);
+        rect(image, 30, 0, 2, 16, DARK_GOLD);
+        rect(image, 19, 7, 10, 2, 0xFFF2D397);
+        pixel(image, 25, 11, 0xFF6FA79A);
+        pixel(image, 26, 12, 0xFF6FA79A);
+        // 皮革握柄
+        rect(image, 0, 16, 16, 16, 0xFF5B4030);
+        for (int i = 0; i < 16; i += 4) {
+            line(image, 0, 16 + i, 15, 16 + i + 2, 0xFF7A5A42);
+            line(image, 0, 17 + i, 15, 19 + i, 0xFF43301F);
+        }
+        // 柄头宝石
+        rect(image, 16, 16, 16, 16, INK);
+        rect(image, 18, 18, 12, 12, 0xFF2F8F8A);
+        rect(image, 20, 20, 8, 8, TEAL);
+        polygon(image, 0xFFA2ECE0, 20, 20, 28, 20, 20, 28);
+        rect(image, 21, 21, 3, 3, WHITE);
+        pixel(image, 27, 26, 0xFF3FA9A4);
         return image;
     }
 
@@ -502,6 +611,14 @@ public class PotionsV2 {
         rect(image, 9, 15, 6, 1, p.dark());
         rect(image, 8, 10, 8, 1, p.trim());
         rect(image, 11, 11, 2, 2, p.gem());
+        // 盔沿金边：顶面前后沿 + 侧面下缘 + 铆钉
+        rect(image, 8, 0, 8, 1, p.trim());
+        rect(image, 8, 7, 8, 1, p.trim());
+        rect(image, 0, 15, 8, 1, p.trim());
+        rect(image, 16, 15, 8, 1, p.trim());
+        rect(image, 24, 15, 8, 1, p.trim());
+        pixel(image, 9, 2, p.trim());
+        pixel(image, 14, 2, p.trim());
         if (master) {
             rect(image, 9, 5, 6, 2, p.trim());
             pixel(image, 12, 4, LIGHT_GOLD);
@@ -520,6 +637,15 @@ public class PotionsV2 {
         rect(image, 32, 29, 8, 2, p.trim());
         rect(image, 23, 23, 3, 5, p.dark());
         rect(image, 24, 24, 1, 3, p.gem());
+        // 领口金边 + 胸甲铆钉 + 侧腰束带
+        rect(image, 16, 20, 4, 1, p.trim());
+        rect(image, 20, 20, 8, 1, p.trim());
+        rect(image, 28, 20, 4, 1, p.trim());
+        rect(image, 32, 20, 8, 1, p.trim());
+        pixel(image, 21, 22, p.trim());
+        pixel(image, 26, 22, p.trim());
+        rect(image, 16, 27, 4, 1, p.trim());
+        rect(image, 28, 27, 4, 1, p.trim());
         if (master) {
             rect(image, 20, 20, 8, 1, p.trim());
             rect(image, 32, 20, 8, 1, p.trim());
@@ -542,6 +668,11 @@ public class PotionsV2 {
         face(image, 28, 26, 4, 6, p.base(), p.light(), p.dark());
         rect(image, 20, 26, 8, 1, p.trim());
         rect(image, 32, 26, 8, 1, p.trim());
+        // 腰带扣与侧饰
+        rect(image, 23, 27, 2, 3, p.trim());
+        pixel(image, 23, 27, LIGHT_GOLD);
+        rect(image, 16, 28, 4, 1, p.shadow());
+        rect(image, 28, 28, 4, 1, p.shadow());
 
         legFaces(image, 0, p, master, true);
         return image;
@@ -559,6 +690,10 @@ public class PotionsV2 {
         rect(image, x + 4, 29, 4, 2, p.trim());
         rect(image, x + 8, 29, 4, 2, p.trim());
         rect(image, x + 12, 29, 4, 2, p.trim());
+        // 上臂金环与护肘铆钉
+        rect(image, x, 21, 16, 1, p.trim());
+        pixel(image, x + 2, 23, p.trim());
+        pixel(image, x + 13, 23, p.trim());
         if (master) {
             rect(image, x, 20, 16, 1, p.trim());
             pixel(image, x + 6, 24, p.gem());
@@ -574,6 +709,11 @@ public class PotionsV2 {
         face(image, x + 12, 24, 4, 8, p.dark(), p.base(), p.shadow());
         rect(image, x, 24, 16, 2, p.trim());
         rect(image, x, 30, 16, 2, p.shadow());
+        // 鞋尖/鞋跟金属包边 + 侧扣宝石
+        rect(image, x + 4, 28, 4, 1, p.trim());
+        rect(image, x + 12, 28, 4, 1, p.trim());
+        pixel(image, x + 1, 27, p.gem());
+        pixel(image, x + 10, 27, p.gem());
         if (master) {
             rect(image, x, 26, 16, 1, p.dark());
             pixel(image, x + 6, 27, p.gem());
@@ -591,6 +731,11 @@ public class PotionsV2 {
         rect(image, x + 4, 24, 4, 2, p.trim());
         rect(image, x + 8, 24, 4, 2, p.trim());
         rect(image, x + 12, 24, 4, 1, p.trim());
+        // 外侧缝线金边 + 护膝宝石
+        rect(image, x, 21, 1, 10, p.trim());
+        rect(image, x + 15, 21, 1, 10, p.trim());
+        pixel(image, x + 5, 25, p.gem());
+        pixel(image, x + 10, 25, p.gem());
         if (master) {
             rect(image, x + 4, 27, 4, 1, p.dark());
             rect(image, x + 8, 27, 4, 1, p.dark());
@@ -620,57 +765,150 @@ public class PotionsV2 {
 
     // ==================== 方块贴图 ====================
 
+    /**
+     * 石质底座：顶部 8 行是侧面用的「高光 + 石身 + 金色下缘」条带，
+     * 其余区域供顶/底面取样，避免整张贴图被压进 2 像素高的侧面。
+     */
     private static BufferedImage brewingStand() {
         BufferedImage image = canvas();
         int stone = 0xFF4E4A5C;
         int stoneLight = 0xFF625D72;
-        int stoneDark = 0xFF363243;
-        int inlay = 0xFF6B4B9E;
-        int inlayLight = 0xFF8B6BC4;
-        int inlayDark = 0xFF4A3270;
+        int stoneDark = 0xFF3A3548;
+        int stoneDeep = 0xFF2A2635;
+        int highlight = 0xFF746E86;
+        int amethyst = 0xFF6B4B9E;
 
-        // 石板底
         rect(image, 0, 0, SIZE, SIZE, stone);
         for (int y = 0; y < SIZE; y++) {
             for (int x = 0; x < SIZE; x++) {
-                int hash = (x * 7 + y * 13) % 11;
+                int hash = (x * 7 + y * 13) % 13;
                 if (hash == 0) {
                     pixel(image, x, y, stoneLight);
-                } else if (hash == 5) {
+                } else if (hash == 6) {
                     pixel(image, x, y, stoneDark);
                 }
             }
         }
-        // 外框
-        rect(image, 0, 0, SIZE, 1, stoneDark);
-        rect(image, 0, 31, SIZE, 1, stoneDark);
-        rect(image, 0, 0, 1, SIZE, stoneDark);
-        rect(image, 31, 0, 1, SIZE, stoneDark);
-        // 紫晶台面
-        rect(image, 4, 4, 24, 24, inlayDark);
-        rect(image, 5, 5, 22, 22, inlay);
-        rect(image, 5, 5, 22, 2, inlayLight);
-        rect(image, 5, 5, 2, 22, inlayLight);
-        rect(image, 25, 7, 2, 20, inlayDark);
-        rect(image, 7, 25, 20, 2, inlayDark);
-        // 金属包边与铆钉
-        rect(image, 4, 4, 24, 1, GOLD);
-        rect(image, 4, 27, 24, 1, DARK_GOLD);
-        rect(image, 4, 4, 1, 24, GOLD);
-        rect(image, 27, 4, 1, 24, DARK_GOLD);
-        for (int[] pos : new int[][]{{5, 5}, {26, 5}, {5, 26}, {26, 26}}) {
-            pixel(image, pos[0], pos[1], LIGHT_GOLD);
+        // 侧面条带
+        rect(image, 0, 0, SIZE, 1, highlight);
+        rect(image, 0, 1, SIZE, 1, stoneLight);
+        rect(image, 0, 5, SIZE, 1, stoneDark);
+        rect(image, 0, 6, SIZE, 1, GOLD);
+        rect(image, 0, 7, SIZE, 1, DARK_GOLD);
+        for (int x : new int[]{7, 15, 23}) {
+            rect(image, x, 0, 1, 6, stoneDeep);
         }
-        // 中央蒸馏口与两侧瓶位
-        rect(image, 13, 13, 6, 6, INK);
-        rect(image, 14, 14, 4, 4, 0xFF2C2440);
-        rect(image, 15, 15, 2, 2, TEAL);
-        pixel(image, 15, 15, WHITE);
-        for (int[] pos : new int[][]{{9, 20}, {21, 20}}) {
-            rect(image, pos[0], pos[1], 3, 4, 0xFF9FC4D8);
-            rect(image, pos[0] + 1, pos[1] + 1, 1, 2, WHITE);
-            pixel(image, pos[0], pos[1] + 3, DARK_GOLD);
-        }
+        pixel(image, 3, 3, amethyst);
+        pixel(image, 12, 2, amethyst);
+        pixel(image, 20, 4, amethyst);
+        pixel(image, 28, 3, amethyst);
+        // 顶/底面区域：暗边收口
+        rect(image, 0, 8, SIZE, 1, stoneDark);
+        rect(image, 0, 31, SIZE, 1, stoneDeep);
+        rect(image, 0, 8, 1, 24, stoneDark);
+        rect(image, 31, 8, 1, 24, stoneDeep);
         return image;
+    }
+
+    /**
+     * 黄铜构件：顶部 8 行是抛光渐变（供所有侧面），下部是带铆钉与铜绿的黄铜板（供顶/底面）。
+     */
+    private static BufferedImage brewingStandGold() {
+        BufferedImage image = canvas();
+        int brass = 0xFFC89243;
+        int brassLight = 0xFFE9C075;
+        int brassDark = 0xFF8E6229;
+        int copper = 0xFFA9662F;
+        int patina = 0xFF6FA79A;
+
+        rect(image, 0, 0, SIZE, 8, brass);
+        rect(image, 0, 0, SIZE, 1, 0xFFF7DA96);
+        rect(image, 0, 1, SIZE, 1, brassLight);
+        rect(image, 0, 5, SIZE, 1, brassDark);
+        rect(image, 0, 6, SIZE, 2, copper);
+        rect(image, 4, 1, 3, 5, brassLight);
+        rect(image, 5, 1, 1, 5, 0xFFF2D397);
+
+        rect(image, 0, 8, SIZE, 24, 0xFFB9873F);
+        for (int y = 8; y < SIZE; y++) {
+            for (int x = 0; x < SIZE; x++) {
+                int hash = (x * 11 + y * 5) % 17;
+                if (hash == 0) {
+                    pixel(image, x, y, 0xFFCD9C52);
+                } else if (hash == 8) {
+                    pixel(image, x, y, 0xFFA2732F);
+                }
+            }
+        }
+        rect(image, 0, 8, SIZE, 1, 0xFFE2BC72);
+        rect(image, 0, 31, SIZE, 1, 0xFF6E4C24);
+        rect(image, 0, 8, 1, 24, 0xFFE2BC72);
+        rect(image, 31, 8, 1, 24, 0xFF6E4C24);
+        for (int[] p : new int[][]{{4, 12}, {14, 12}, {24, 12}, {9, 21}, {19, 21}, {29, 21}}) {
+            rect(image, p[0], p[1], 2, 2, 0xFF6E4C24);
+            pixel(image, p[0], p[1], 0xFFF0CB80);
+        }
+        pixel(image, 7, 16, patina);
+        pixel(image, 8, 17, patina);
+        pixel(image, 22, 26, patina);
+        pixel(image, 26, 18, 0xFF7A5630);
+        return image;
+    }
+
+    /** 紫晶台面：金框 + 切面 + 三个瓶座环，瓶座落在未被中央柱遮挡的外环上。 */
+    private static BufferedImage brewingStandInlay() {
+        BufferedImage image = canvas();
+        int edge = 0xFF2A2140;
+        int plate = 0xFF4A3568;
+        int plateLight = 0xFF6B4B9E;
+        int plateDark = 0xFF33254A;
+
+        rect(image, 0, 0, SIZE, SIZE, edge);
+        rect(image, 2, 2, 28, 28, plate);
+        polygon(image, plateLight, 2, 2, 18, 2, 2, 18);
+        polygon(image, plateDark, 30, 30, 14, 30, 30, 14);
+        rect(image, 0, 0, SIZE, 2, GOLD);
+        rect(image, 0, 30, SIZE, 2, DARK_GOLD);
+        rect(image, 0, 0, 2, SIZE, GOLD);
+        rect(image, 30, 0, 2, SIZE, DARK_GOLD);
+        for (int[] p : new int[][]{{3, 3}, {26, 3}, {3, 26}, {26, 26}}) {
+            rect(image, p[0], p[1], 3, 3, DARK_GOLD);
+            pixel(image, p[0] + 1, p[1] + 1, TEAL);
+        }
+        socket(image, 16, 5, 4);
+        socket(image, 6, 24, 4);
+        socket(image, 26, 24, 4);
+        return image;
+    }
+
+    /** 青绿晶体：用于蒸馏器顶珠与滴液，四角为暗色玻璃边。 */
+    private static BufferedImage brewingStandGlow() {
+        BufferedImage image = canvas();
+        rect(image, 0, 0, SIZE, SIZE, 0xFF1F1830);
+        rect(image, 1, 1, 30, 30, 0xFF3FA9A4);
+        rect(image, 2, 2, 28, 28, TEAL);
+        polygon(image, 0xFFA2ECE0, 2, 2, 20, 2, 2, 20);
+        polygon(image, 0xFF4FC7C0, 29, 29, 12, 29, 29, 12);
+        rect(image, 3, 3, 3, 3, WHITE);
+        rect(image, 12, 2, 2, 1, 0xFFD6F7F1);
+        rect(image, 2, 12, 1, 2, 0xFFD6F7F1);
+        line(image, 20, 4, 28, 12, 0xFF6DE0D8);
+        line(image, 4, 20, 12, 28, 0xFF3FA9A4);
+        return image;
+    }
+
+    /** 瓶座环：外圈暗色，内圈青绿，左上一点高光 */
+    private static void socket(BufferedImage image, int cx, int cy, int radius) {
+        for (int dy = -radius; dy <= radius; dy++) {
+            for (int dx = -radius; dx <= radius; dx++) {
+                int d2 = dx * dx + dy * dy;
+                if (d2 > radius * radius) {
+                    continue;
+                }
+                pixel(image, cx + dx, cy + dy,
+                        d2 > (radius - 1) * (radius - 1) ? INK : 0xFF93E8E0);
+            }
+        }
+        pixel(image, cx - 1, cy - 1, WHITE);
     }
 }

@@ -1,0 +1,57 @@
+{
+  "ambientocclusion": true,
+  "gui_light": "side",
+  "textures": {
+    "side": "earlypotions:block/early_brewing_stand_bottle",
+    "neck": "earlypotions:block/early_brewing_stand_bottle",
+    "cork": "earlypotions:block/early_brewing_stand_bottle",
+    "particle": "earlypotions:block/early_brewing_stand_bottle"
+  },
+  "elements": [
+    {
+      "from": [10.025, 4, 9.4],
+      "to": [12.225, 7.6, 11.6],
+      "faces": {
+        "down": { "texture": "#neck", "uv": [0, 8, 8, 16] },
+        "up": { "texture": "#side", "uv": [8, 0, 16, 8] },
+        "north": { "texture": "#side", "uv": [0, 0, 8, 8] },
+        "south": { "texture": "#side", "uv": [0, 0, 8, 8] },
+        "west": { "texture": "#side", "uv": [0, 0, 8, 8] },
+        "east": { "texture": "#side", "uv": [0, 0, 8, 8] }
+      }
+    },
+    {
+      "from": [10.425, 7.6, 9.8],
+      "to": [11.825, 8.2, 11.2],
+      "faces": {
+        "up": { "texture": "#neck", "uv": [0, 8, 8, 16] },
+        "north": { "texture": "#neck", "uv": [0, 8, 8, 16] },
+        "south": { "texture": "#neck", "uv": [0, 8, 8, 16] },
+        "west": { "texture": "#neck", "uv": [0, 8, 8, 16] },
+        "east": { "texture": "#neck", "uv": [0, 8, 8, 16] }
+      }
+    },
+    {
+      "from": [10.725, 8.2, 10.1],
+      "to": [11.525, 9, 10.9],
+      "faces": {
+        "north": { "texture": "#neck", "uv": [0, 8, 8, 16] },
+        "south": { "texture": "#neck", "uv": [0, 8, 8, 16] },
+        "west": { "texture": "#neck", "uv": [0, 8, 8, 16] },
+        "east": { "texture": "#neck", "uv": [0, 8, 8, 16] }
+      }
+    },
+    {
+      "from": [10.525, 9, 9.9],
+      "to": [11.725, 9.5, 11.1],
+      "faces": {
+        "down": { "texture": "#cork", "uv": [8, 8, 16, 16] },
+        "up": { "texture": "#cork", "uv": [8, 8, 16, 16] },
+        "north": { "texture": "#cork", "uv": [8, 8, 16, 16] },
+        "south": { "texture": "#cork", "uv": [8, 8, 16, 16] },
+        "west": { "texture": "#cork", "uv": [8, 8, 16, 16] },
+        "east": { "texture": "#cork", "uv": [8, 8, 16, 16] }
+      }
+    }
+  ]
+}
